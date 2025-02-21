@@ -50,9 +50,7 @@ const SignUp = () => {
   };
   return (
     <div className="max-w-md mx-auto p-6  shadow-lg rounded-lg mt-20">
-      <h2 className="text-2xl md:text-3xl font-bold mb-4 text-center text-sky-600">
-        Welcome to Task Management
-      </h2>
+      <h2>Welcome to Task Management</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex gap-4">
           {/* First Name */}
