@@ -1,19 +1,22 @@
 import { Outlet } from 'react-router-dom';
 import TaksUser from '../page/Authentication/TaskManagement/TaksUser';
-import TaskBoard from '../page/Authentication/TaskManagement/TaskBoard ';
+
 const MainLayout = () => {
   return (
-    <div className="max-w-screen-xl mx-auto my-10 px-4 grid grid-cols-1 md:grid-cols-12 gap-4">
-      <div className=" col-span-3">
-        {' '}
-        <TaksUser />
+    <>
+      <h1 className="text-3xl font-semibold text-center mb-6 text-blue-500 ">
+        Task Manager
+      </h1>
+      <div className="max-w-screen-xl mx-auto flex ">
+        <div className=" w-72">
+          <TaksUser />
+        </div>
+        <div className="">
+          <Outlet />
+        </div>
       </div>
-      <div className=" col-span-9">
-        {' '}
-        <Outlet />
-        <TaskBoard />
-      </div>
-    </div>
+    </>
   );
 };
+
 export default MainLayout;

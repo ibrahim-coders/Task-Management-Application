@@ -89,7 +89,7 @@ const TaksUser = () => {
             to="/complete"
             className={({ isActive }) =>
               isActive
-                ? 'text-white font-semibold border-l-4 bg-green-500pl-3 py-2  rounded-md'
+                ? 'text-white font-semibold border-l-4 bg-green-500 pl-3 py-2  rounded-md'
                 : 'text-white font-semibold bg-em bg-blue-500  hover:bg-green-600 pl-3   rounded-md hover:text-gray-200 transition-all py-2'
             }
           >
