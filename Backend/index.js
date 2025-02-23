@@ -20,7 +20,7 @@ const io = new Server(server, {
 
 // MongoDB Connection
 
-// const uri = mongodb+srv:${process.env.APP_NAME}:${process.env.SECRET_PASS}@cluster0.whh17.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0;
+// const uri = `mongodb+srv:${process.env.APP_NAME}:${process.env.SECRET_PASS}@cluster0.whh17.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 const uri = 'mongodb://localhost:27017/';
 const client = new MongoClient(uri, {
   serverApi: {
@@ -98,7 +98,7 @@ async function run() {
     app.post('/tasks', async (req, res) => {
       try {
         const newTask = req.body;
-        console.log('taks', newTask);
+
         const result = await tasksCollection.insertOne(newTask);
         io.emit('taskAdded', newTask);
         res.send(result);
@@ -113,6 +113,38 @@ async function run() {
         // });
       } catch (error) {
         console.log(error);
+      }
+    });
+    app.patch('/uplodeImage/:email', async (req, res) => {
+      const email = req.params.email;
+      const { photoURL } = req.body;
+      console.log('Received photoURL:', photoURL);
+
+      try {
+        // Find user by email to verify existence
+        const user = await userCollection.findOne({ email: email });
+
+        // if (!user) {
+        //   return res.status(404).send({ message: 'User not found' });
+        // }
+        console.log(user);
+        // Update the user's photoURL
+        const updatedPhoto = await userCollection.updateOne(
+          { email: email }, // Find the user by email
+          { $set: { photoURL: photoURL } }
+        );
+
+        console.log('Update result:', updatedPhoto);
+
+        if (updatedPhoto.modifiedCount > 0) {
+          io.emit('updatedTask', updatedPhoto);
+          res.send(updatedPhoto);
+        } else {
+          res.status(400).send({ message: 'No changes made' });
+        }
+      } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: 'Error updating photoURL' });
       }
     });
 

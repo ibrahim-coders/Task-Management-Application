@@ -111,18 +111,18 @@ const ToDo = () => {
   };
   const progress = tasks.filter(task => task.status === 'In Progress');
   return (
-    <>
-      <div className="  w-72 ">
+    <div className="h-auto mb-4 pl-2">
+      <div className=" w-full md:w-72">
         {' '}
         <button className="w-full bg-yellow-500 text-white px-2 rounded-md py-3 mb-2">
           InProgress
         </button>
       </div>
-      <div className="w-full flex flex-wrap gap-4 px-4 relative ">
+      <div className="w-full flex flex-wrap gap-4  relative ">
         {progress.map(task => (
           <div
             key={task._id}
-            className=" px-4 w-72 h-44 box-shadow rounded-md flex flex-col relative space-y-2"
+            className=" px-4 w-full mt-2 md:w-72 h-44 box-shadow rounded-md flex flex-col relative space-y-2"
           >
             {/* Task Title */}
             <h6 className=" text-sm font-medium">{task.title}</h6>
@@ -134,11 +134,11 @@ const ToDo = () => {
 
             {/* Buttons Section (Bottom-Left Aligned) */}
             <div>
-              <span className="text-[12px] absolute bottom-3 left-3">
+              <span className="text-[10px] absolute bottom-3 left-2">
                 {new Date(task.timestamp).toLocaleString()}
               </span>
 
-              <div className="absolute bottom-3  right-3 gap-2 flex justify-center items-end">
+              <div className="absolute bottom-3  right-3  flex justify-center gap-1.5 items-end">
                 <button
                   onClick={() => handleCategoriesChanges(task.status)}
                   className={`${
@@ -223,7 +223,7 @@ const ToDo = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

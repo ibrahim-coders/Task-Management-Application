@@ -2,6 +2,8 @@ import { useContext } from 'react';
 import { AuthContext } from '../../../AuthContext/AuthPrvider';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { MdAddPhotoAlternate } from 'react-icons/md';
+import { imgaeUploade } from '../../../components/ImageUplode/utils';
+import axios from 'axios';
 const TaksUser = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -12,9 +14,22 @@ const TaksUser = () => {
     navigate('/login');
   };
 
-  // const handlePhotoChange = (async) => {
+  const handleFileChange = async e => {
+    const file = e.target.files[0];
+    console.log('Selected file:', file);
 
-  // }
+    try {
+      const uploadedImageURL = await imgaeUploade(file);
+      console.log('Uploaded image URL:', uploadedImageURL);
+      axios.patch(
+        `${import.meta.env.VITE_API_URL}/uplodeImage/${user?.email}`,
+        { photoURL: uploadedImageURL }
+      );
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Failed to upload image. Please try again.');
+    }
+  };
   return (
     <div className="flex flex-col h-screen w-full box-shadow rounded-lg ">
       <div className="w-full">
@@ -23,20 +38,30 @@ const TaksUser = () => {
             {user?.photoURL ? (
               <div className="relative rounded-full border border-sky-600">
                 <img
-                  className="w-20 h-20  rounded-full"
-                  src={user.photoURL}
+                  className="w-20 h-20 rounded-full"
+                  src={user?.photoURL}
                   alt="User"
                 />
+                <input
+                  type="file"
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={handleFileChange}
+                />
                 <MdAddPhotoAlternate
-                  className=" absolute bottom-4  right-2 text-sky-600  cursor-pointer"
+                  className="absolute bottom-4 right-2 text-sky-600 cursor-pointer"
                   size={18}
                 />
               </div>
             ) : (
               <div className="rounded-full border border-sky-600 w-20 h-20 relative">
                 <MdAddPhotoAlternate
-                  className=" absolute bottom-4  right-2 text-sky-600 cursor-pointer"
+                  className="absolute bottom-4 right-2 text-sky-600 cursor-pointer"
                   size={20}
+                />
+                <input
+                  type="file"
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={handleFileChange}
                 />
               </div>
             )}

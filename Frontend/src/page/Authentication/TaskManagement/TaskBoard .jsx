@@ -5,7 +5,7 @@ const TaskBoard = () => {
     <section className=" ">
       <AddTaks />
 
-      <div className=" px-4">
+      <div className=" px-4 grid grid-cols-1">
         {/* Task List Section */}
         <TaskManager />
       </div>

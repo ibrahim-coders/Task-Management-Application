@@ -60,11 +60,11 @@ const AddTaks = () => {
   };
 
   return (
-    <section className=" ">
+    <section className="mt-6 ">
       <div className="flex  gap-4 ">
         {/* add Taks */}
-        <div className="w-96 h-72 rounded-md box-shadow m-2">
-          <div className="flex justify-center items-center h-full ">
+        <div className="w-full md:w-96 h-72 rounded-md box-shadow m-2">
+          <div className="w-full flex justify-center items-center h-full ">
             <button
               onClick={() => handleTaksModal(isModel)}
               className="flex gap-2 items-center cursor-pointer"

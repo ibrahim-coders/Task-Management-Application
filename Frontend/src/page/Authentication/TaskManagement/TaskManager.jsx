@@ -115,8 +115,8 @@ const TaskManager = () => {
   const filter = tasks.filter(task => task.status === 'To-Do');
 
   return (
-    <>
-      <div className="w-full grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-4 relative mb-8">
+    <div className=" h-auto">
+      <div className="w-full flex flex-wrap gap-4 space-y-10 relative  ">
         <div className="w-full md:w-72 h-48 ">
           <button className="w-full bg-blue-500 text-white px-2 rounded-md py-3 mb-4">
             To-Do
@@ -124,7 +124,7 @@ const TaskManager = () => {
           {filter.map(task => (
             <div
               key={task._id}
-              className=" p-4 w-72 h-44 box-shadow rounded-md flex flex-col relative space-y-2"
+              className=" p-4 w-full lg:w-72 h-44 box-shadow rounded-md flex flex-col relative "
             >
               {/* Task Title */}
               <h6 className=" text-sm font-medium">{task.title}</h6>
@@ -235,7 +235,7 @@ const TaskManager = () => {
           <Complete />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

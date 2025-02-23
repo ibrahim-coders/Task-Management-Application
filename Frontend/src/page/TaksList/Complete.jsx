@@ -112,17 +112,17 @@ const Complete = () => {
   const done = tasks.filter(task => task.status === 'Done');
 
   return (
-    <>
-      <div className="w-72 ">
-        <button className="w-full bg-green-500 text-white px-2 rounded-md py-3 mb-2">
+    <div className="mb-4 h-auto">
+      <div className="w-full  md:w-72 ">
+        <button className="w-full bg-green-500 text-white px-2 rounded-md py-3 mb-2 ml-3">
           Complete
         </button>
       </div>
-      <div className="w-full f flex flex-wrap gap-4 px-4 relative ">
+      <div className="w-full flex flex-wrap gap-4  relative ml-4">
         {done.map(task => (
           <div
             key={task._id}
-            className=" p-4 w-72 h-44 box-shadow rounded-md flex flex-col relative space-y-2"
+            className="px-2 w-full mt-2 md:w-72 h-44 box-shadow rounded-md flex flex-col relative space-y-2"
           >
             {/* Task Title */}
             <h6 className=" text-sm font-medium">{task.title}</h6>
@@ -223,7 +223,7 @@ const Complete = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
