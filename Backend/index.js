@@ -4,24 +4,31 @@ require('dotenv').config();
 const { Server } = require('socket.io');
 const { createServer } = require('http');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const { title } = require('process');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors({ origin: ['http://localhost:5173'], credentials: true }));
+app.use(
+  cors({
+    origin: ['http://localhost:5173', 'https://messenger-lite-5829e.web.app'],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 const server = createServer(app);
 const io = new Server(server, {
-  cors: { origin: ['http://localhost:5173'], credentials: true },
+  cors: {
+    origin: ['http://localhost:5173', 'https://messenger-lite-5829e.web.app'],
+    credentials: true,
+  },
 });
 
 // MongoDB Connection
 
-// const uri = `mongodb+srv:${process.env.APP_NAME}:${process.env.SECRET_PASS}@cluster0.whh17.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-const uri = 'mongodb://localhost:27017/';
+const uri = `mongodb+srv:${process.env.APP_NAME}:${process.env.SECRET_PASS}@cluster0.whh17.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+// const uri = 'mongodb://localhost:27017/';
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -33,9 +40,9 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     // Send a ping to confirm a successful connection
-    await client.db('admin').command({ ping: 1 });
+    // await client.db('admin').command({ ping: 1 });
     console.log(
       'Pinged your deployment. You successfully connected to MongoDB!'
     );
