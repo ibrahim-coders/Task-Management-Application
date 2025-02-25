@@ -1,23 +1,26 @@
+import { createContext, useEffect, useState } from 'react';
+
+import axios from 'axios';
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import PropTypes from 'prop-types';
-import { createContext, useEffect, useState } from 'react';
 import { auth } from '../Firebase/firebase.init';
-import axios from 'axios';
-export const AuthContext = createContext();
 
+export const AuthContext = createContext(null);
+// eslint-disable-next-line react/prop-types
 const AuthPrvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const provider = new GoogleAuthProvider();
   console.log(user);
+  const [loading, setLoading] = useState(true);
+  const Provider = new GoogleAuthProvider();
+
   const UserRegister = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
@@ -32,65 +35,65 @@ const AuthPrvider = ({ children }) => {
 
   const googleLoging = () => {
     setLoading(true);
-    return signInWithPopup(auth, provider);
+    return signInWithPopup(auth, Provider);
   };
 
-  // Update Profile
-  const updateUserProfiles = (name, photo) => {
-    const user = auth.currentUser;
-    if (user) {
-      return updateProfile(user, {
-        displayName: name,
-        photoURL: photo,
-      });
-    } else {
-      return Promise.reject(new Error('No user is currently logged in'));
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      console.log('User signed out successfully');
+    } catch (error) {
+      console.error('Error signing out:', error.message);
     }
   };
 
-  //signOut
-  const signOuts = () => {
-    setLoading(true);
-    return signOut(auth);
+  const reset = email => {
+    return sendPasswordResetEmail(auth, email);
   };
-  //observer
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async currentUser => {
-      if (currentUser?.email) {
-        setUser(currentUser);
-        try {
-          await axios.post(
-            `${import.meta.env.VITE_API_URL}/user/${currentUser?.email}`,
-            {
-              name: currentUser?.displayName,
-              email: currentUser?.email,
-              image: currentUser?.uid,
-            }
-          );
-        } catch (error) {
-          console.log(error);
-        }
-      }
 
+  const update = (name, url) => {
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: url,
+    });
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, currentUser => {
+      setUser(currentUser);
+      if (currentUser) {
+        axios
+          .post('https://taskflow-server-ra21.onrender.com/jwt', {
+            email: currentUser.email,
+          })
+          .then(data => {
+            if (data.data.token) {
+              localStorage.setItem('access-token', data.data.token);
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching token:', error);
+          });
+      } else {
+        localStorage.removeItem('access-token');
+      }
       setLoading(false);
     });
     return () => unsubscribe();
   }, []);
-  const authInfo = {
-    user,
-    loading,
+  const object = {
     UserRegister,
-    loginUser,
+
+    user,
+    setUser,
+    loading,
+    logout,
     googleLoging,
-    updateUserProfiles,
-    signOuts,
+    loginUser,
+    reset,
+    update,
   };
-  return (
-    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={object}>{children}</AuthContext.Provider>;
 };
 
-AuthPrvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 export default AuthPrvider;

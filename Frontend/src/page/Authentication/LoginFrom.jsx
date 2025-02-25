@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../AuthContext/AuthPrvider';
 import toast from 'react-hot-toast';
 
-const Login = () => {
+const LoginFrom = () => {
   const { googleLoging, loginUser } = useContext(AuthContext);
   const [errorMess, setErrorMess] = useState('');
   const navigate = useNavigate();
@@ -138,4 +138,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginFrom;

@@ -89,7 +89,7 @@ const TaksUser = () => {
 
         <nav className="flex flex-col gap-2 ">
           <NavLink
-            to="/to-do"
+            // to="/to-do"
             className={({ isActive }) =>
               isActive
                 ? 'text-white font-semibold border-l-4 bg-green-500 pl-3 py-2  rounded-md'
@@ -100,7 +100,7 @@ const TaksUser = () => {
           </NavLink>
 
           <NavLink
-            to="/progress"
+            // to="/progress"
             className={({ isActive }) =>
               isActive
                 ? 'text-white font-semibold border-l-4 bg-green-500 pl-3 py-2  rounded-md'
@@ -111,7 +111,7 @@ const TaksUser = () => {
           </NavLink>
 
           <NavLink
-            to="/complete"
+            // to="/complete"
             className={({ isActive }) =>
               isActive
                 ? 'text-white font-semibold border-l-4 bg-green-500 pl-3 py-2  rounded-md'
@@ -121,7 +121,6 @@ const TaksUser = () => {
             Complete
           </NavLink>
           <NavLink
-            to="/alltaks"
             className={({ isActive }) =>
               isActive
                 ? 'text-white font-semibold border-l-4 bg-green-500 pl-3 py-2  rounded-md'
